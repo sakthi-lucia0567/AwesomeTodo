@@ -1,9 +1,10 @@
 import React from "react";
+import CheckBox from "./CheckBox";
 
 function Task() {
   return (
-    <div>
-      <input type="checkbox" />
+    <div className="task">
+      <CheckBox defaultChecked={true} />
       test task
     </div>
   );
