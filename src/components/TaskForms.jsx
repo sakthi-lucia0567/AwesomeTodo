@@ -4,8 +4,11 @@ import { useState } from "react";
 function TaskForms({ onAdd }) {
   const [taskName, setTaskName] = useState("");
   function handleSubmit(ev) {
+    console.log("hello");
+    console.log("oooook", taskName);
     ev.preventDefault();
     onAdd(taskName);
+    setTaskName("");
   }
   return (
     <form onSubmit={handleSubmit}>
