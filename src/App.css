@@ -74,11 +74,13 @@ div.task.done {
 h2 {
   font-family: poppins, sans-serif;
   text-align: center;
+  margin: 2px;
 }
 h3 {
   font-family: poppins, sans-serif;
   text-align: center;
   font-size: small;
+  margin: 2px;
 }
 
 div.task input {

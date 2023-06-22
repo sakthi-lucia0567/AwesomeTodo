@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import CheckBox from "./CheckBox";
 
 /**
@@ -10,8 +10,9 @@ import CheckBox from "./CheckBox";
 + 
 **/
 
-function Task({ name, done, onToggle, onDelete, setName }) {
+function Task({ name, done, onToggle, onDelete, setName }, formRef) {
   const [editTask, setEditTask] = useState(false);
+
   return (
     <div className={"task " + (done ? " done" : "")}>
       <CheckBox isChecked={done} onClick={() => onToggle(!done)} />

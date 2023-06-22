@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import "./App.css";
 import TaskForms from "./components/TaskForms";
 import Task from "./components/Task";
@@ -19,16 +19,24 @@ function App() {
 
   function addTask(name) {
     setTasks((prev) => {
-      if (!prev || !Symbol.iterator in Object(prev)) {
+      if (!prev || !(Symbol.iterator in Object(prev))) {
         prev = [];
       }
       return [...prev, { name: name, done: false }];
     });
   }
 
+  // function removeTask(taskIndex) {
+  //   setTasks((prev) => {
+  //     return prev.filter((task, index) => index !== taskIndex);
+  //   });
+  // }
+
   function removeTask(taskIndex) {
     setTasks((prev) => {
-      return prev.filter((task, index) => index !== taskIndex);
+      const updatedTasks = prev.filter((task, index) => index !== taskIndex);
+      localStorage.setItem("tasks", JSON.stringify(updatedTasks));
+      return updatedTasks;
     });
   }
 
@@ -55,17 +63,20 @@ function App() {
   function getMessage() {
     const percentCompleted = (numCompleted / numTotal) * 100;
     if (percentCompleted === 0) return "Don't forget to start 😊";
-    if (percentCompleted >= 40 && percentCompleted <= 60)
+    if (percentCompleted >= 30 && percentCompleted <= 70)
       return "You're halfway there, keep pushing 👍";
     if (percentCompleted === 100) return "Yay, you're done! 😎";
+    return "Hey Don't Forget to Write Tasks✌️😉";
   }
 
   return (
     <>
       <main>
-        <h2>
-          {numCompleted}/{numTotal} Complete
-        </h2>
+        {numTotal > 0 && (
+          <h2>
+            {numCompleted}/{numTotal} Complete
+          </h2>
+        )}
         <h3>{getMessage()}</h3>
         <TaskForms onAdd={addTask} />
         {tasks &&
