@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
 body {
   background-color: #17181f;
   color: #ddd;
@@ -23,19 +25,63 @@ form input[type="text"] {
 form button {
   background-color: #61dafb;
   border: 0;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 10px;
+  border-radius: 8px;
   cursor: pointer;
 }
 
 div.task {
+  font-family: poppins, sans-serif;
+  color: #fff;
   background-color: #20212d;
   border-radius: 10px;
   padding: 5px;
   margin-top: 5px;
   display: flex;
+  align-items: center;
+  transition: opacity 0.3s linear;
 }
 div.task svg {
-  margin: 4px;
+  display: flex;
+  align-items: center;
+  height: 20px;
+  margin: 6px;
   fill: #61dafb;
+}
+div.task button {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  background: none;
+  border: none;
+}
+
+div.checkbox {
+  display: flex;
+  align-items: center;
+}
+
+button.delete svg {
+  fill: rgb(134, 123, 123);
+  height: 15px;
+}
+
+div.task.done {
+  opacity: 0.4;
+  text-decoration: line-through;
+}
+
+h2 {
+  font-family: poppins, sans-serif;
+  text-align: center;
+}
+h3 {
+  font-family: poppins, sans-serif;
+  text-align: center;
+  font-size: small;
+}
+
+div.task input {
+  border: #fff;
+  font-family: poppins, sans-serif;
 }
