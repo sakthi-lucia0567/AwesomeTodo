@@ -18,6 +18,7 @@ function TaskForms({ onAdd }) {
         name="task"
         id="task"
         placeholder="New Task"
+        required
       />
     </form>
   );

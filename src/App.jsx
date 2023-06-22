@@ -6,7 +6,7 @@ function App() {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
-    if (tasks.length === 0) {
+    if (!tasks || tasks.length === 0) {
       return;
     }
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -18,7 +18,26 @@ function App() {
   }, []);
 
   function addTask(name) {
-    setTasks((prev) => [...prev, { name: name, done: false }]);
+    setTasks((prev) => {
+      if (!prev || !Symbol.iterator in Object(prev)) {
+        prev = [];
+      }
+      return [...prev, { name: name, done: false }];
+    });
+  }
+
+  function removeTask(taskIndex) {
+    setTasks((prev) => {
+      return prev.filter((task, index) => index !== taskIndex);
+    });
+  }
+
+  function renameTask(index, newName) {
+    setTasks((prev) => {
+      const newTask = [...prev];
+      newTask[index].name = newName;
+      return newTask;
+    });
   }
 
   function updateTaskDone(taskIndex, newDone) {
@@ -28,17 +47,37 @@ function App() {
       return newTasks;
     });
   }
+
+  //const numCompleted = tasks.filter((task) => task.done).length;
+  const numCompleted = tasks ? tasks.filter((task) => task.done).length : 0;
+  const numTotal = tasks ? tasks.length : 0;
+
+  function getMessage() {
+    const percentCompleted = (numCompleted / numTotal) * 100;
+    if (percentCompleted === 0) return "Don't forget to start 😊";
+    if (percentCompleted >= 40 && percentCompleted <= 60)
+      return "You're halfway there, keep pushing 👍";
+    if (percentCompleted === 100) return "Yay, you're done! 😎";
+  }
+
   return (
     <>
       <main>
+        <h2>
+          {numCompleted}/{numTotal} Complete
+        </h2>
+        <h3>{getMessage()}</h3>
         <TaskForms onAdd={addTask} />
-        {tasks.map((task, index) => (
-          <Task
-            key={task.id}
-            {...task}
-            onToggle={(done) => updateTaskDone(index, done)}
-          />
-        ))}
+        {tasks &&
+          tasks.map((task, index) => (
+            <Task
+              key={index}
+              {...task}
+              setName={(newName) => renameTask(index, newName)}
+              onToggle={(done) => updateTaskDone(index, done)}
+              onDelete={() => removeTask(index)}
+            />
+          ))}
       </main>
     </>
   );
