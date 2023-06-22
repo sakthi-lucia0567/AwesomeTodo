@@ -20,12 +20,24 @@ function App() {
   function addTask(name) {
     setTasks((prev) => [...prev, { name: name, done: false }]);
   }
+
+  function updateTaskDone(taskIndex, newDone) {
+    setTasks((prev) => {
+      const newTasks = [...prev];
+      newTasks[taskIndex].done = newDone;
+      return newTasks;
+    });
+  }
   return (
     <>
       <main>
         <TaskForms onAdd={addTask} />
-        {tasks.map((task) => (
-          <Task key={task.id} {...task} />
+        {tasks.map((task, index) => (
+          <Task
+            key={task.id}
+            {...task}
+            onToggle={(done) => updateTaskDone(index, done)}
+          />
         ))}
       </main>
     </>

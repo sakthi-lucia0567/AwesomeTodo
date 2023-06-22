@@ -1,6 +1,6 @@
 body {
   background-color: #17181f;
-  color: #aaa;
+  color: #ddd;
 }
 main {
   max-width: 300px;
@@ -37,4 +37,5 @@ div.task {
 }
 div.task svg {
   margin: 4px;
+  fill: #61dafb;
 }
