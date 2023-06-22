@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import CheckBox from "./CheckBox";
+import confetti from "canvas-confetti";
 
 /**
 + * Render a task component.
@@ -13,9 +14,48 @@ import CheckBox from "./CheckBox";
 function Task({ name, done, onToggle, onDelete, setName }, formRef) {
   const [editTask, setEditTask] = useState(false);
 
+  const canvasConfettiEffect = () => {
+    var duration = 15 * 1000;
+    var animationEnd = Date.now() + duration;
+    var defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+    function randomInRange(min, max) {
+      return Math.random() * (max - min) + min;
+    }
+
+    var interval = setInterval(function () {
+      var timeLeft = animationEnd - Date.now();
+
+      if (timeLeft <= 0) {
+        return clearInterval(interval);
+      }
+
+      var particleCount = 50 * (timeLeft / duration);
+      // since particles fall down, start a bit higher than random
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        })
+      );
+      confetti(
+        Object.assign({}, defaults, {
+          particleCount,
+          origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        })
+      );
+    }, 250);
+  };
+
   return (
     <div className={"task " + (done ? " done" : "")}>
-      <CheckBox isChecked={done} onClick={() => onToggle(!done)} />
+      <CheckBox
+        isChecked={done}
+        onClick={() => {
+          onToggle(!done);
+          canvasConfettiEffect();
+        }}
+      />
       {!editTask && (
         <div onClick={() => setEditTask((prev) => !prev)}>{name}</div>
       )}
